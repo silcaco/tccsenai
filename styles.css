@@ -1,0 +1,753 @@
+/* Define variáveis CSS globais para o tema de cores da aplicação. */
+:root {
+    --primary: #3b82f6; /* Cor principal (azul) */
+    --primary-dark: #2563eb; /* Variação mais escura da cor principal */
+    --background: #f8fafc; /* Cor de fundo principal (claro) */
+    --white: #fff; /* Cor de painéis e seções */
+    --gray: #e5e7eb; /* Cor de bordas e divisórias */
+    --gray2: #f3f4f6; /* Cor de fundo secundária (para painéis internos) */
+    --text: #111827; /* Cor principal do texto */
+    --text-light: #6b7280; /* Cor de texto secundário (mais claro) */
+    --error: #ef4444; /* Cor para mensagens de erro e botões de exclusão */
+    --success: #16a34a; /* Cor para mensagens de sucesso e ícones de conclusão */
+    /* MODIFICAÇÃO CALENDÁRIO: Cor para feriados */
+    --holiday: #fde047; /* Amarelo para feriados */
+    --holiday-text: #713f12; /* Texto escuro para feriados */
+  }
+
+html.theme-sunset { --primary: #f97316; --primary-dark: #ea580c; }
+html.theme-forest { --primary: #16a34a; --primary-dark: #15803d; }
+html.theme-lavender { --primary: #8b5cf6; --primary-dark: #7c3aed; }
+  
+  /* Reset básico e configuração do box-sizing */
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; padding: 0; }
+  
+  /* Estilos base do corpo da página */
+  body {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    background: var(--background);
+    min-height: 100vh;
+    color: var(--text);
+  }
+  
+  /* ---------- HEADER ---------- */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray);
+    padding: 18px 28px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .header .logo {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+  }
+  .header nav {
+    display: flex;
+    gap: 18px;
+  }
+  .header nav button, .header nav a {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+    text-decoration: none;
+  }
+  .header nav .active, .header nav button:hover, .header nav a:hover {
+    background: var(--gray2);
+    color: var(--primary-dark);
+  }
+  .header .user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  /* ---------- MAIN & PAGES ---------- */
+  .container {
+    max-width: 1100px;
+    margin: 32px auto;
+    background: var(--white);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    padding: 34px 28px 26px 28px;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    position: relative;
+    animation: fadeIn 1s;
+  }
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+  .hidden { display: none !important; }
+  
+  /* ---------- CALENDÁRIO ---------- */
+  .calendar-section {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .calendar-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 7px;
+  }
+  .calendar-controls button {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.16s;
+  }
+  .calendar-controls button:hover {
+    background: var(--primary-dark);
+  }
+  .calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--gray2);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  }
+  .calendar-table th, .calendar-table td {
+    width: 14.28%;
+    height: 44px;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0;
+    border: 1px solid var(--gray);
+    background: var(--gray2);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.13s;
+  }
+  .calendar-table th {
+    background: var(--primary);
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1.06rem;
+    border: none;
+    transition: background 0.3s ease;
+  }
+  .calendar-table td.today {
+    background: #bfdbfe;
+    color: var(--primary-dark);
+    font-weight: 700;
+  }
+  /* MODIFICAÇÃO CALENDÁRIO: Estilo para feriados */
+  .calendar-table td.is-holiday {
+    background: var(--holiday);
+    color: var(--holiday-text);
+    font-weight: 700;
+  }
+  .calendar-table td.is-holiday::before {
+    content: '★';
+    font-size: 0.7em;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: var(--holiday-text);
+    opacity: 0.8;
+  }
+  .calendar-table td.has-event::after, .calendar-table td.has-task::after {
+    content: '';
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--primary);
+    position: absolute;
+    bottom: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .calendar-table td.has-task:not(.has-event)::after {
+    background: var(--success);
+  }
+  
+  /* ---------- DETALHES DO DIA ---------- */
+  .day-details {
+    background: var(--gray2);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    margin-top: 20px;
+  }
+  .day-details h3 {
+    margin: 0 0 15px 0;
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .day-event-item, .day-task-item, .day-holiday-item {
+    background: var(--white);
+    margin-bottom: 10px;
+    border-radius: 7px;
+    padding: 12px 15px;
+    box-shadow: 0 1px 4px rgba(59, 130, 246, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  /* MODIFICAÇÃO CALENDÁRIO: Estilo para o item de feriado nos detalhes */
+  .day-holiday-item {
+    background: var(--holiday);
+    color: var(--holiday-text);
+  }
+  .day-holiday-item .day-holiday-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .day-event-title, .day-task-title {
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 1.05rem;
+  }
+  .day-event-time, .day-task-priority {
+    font-size: 0.95rem;
+    color: var(--text-light);
+  }
+  .day-event-desc {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-top: 5px;
+  }
+  .no-items {
+    text-align: center;
+    color: var(--text-light);
+    font-style: italic;
+    padding: 20px;
+  }
+  
+  /* ---------- EVENTOS E TAREFAS ---------- */
+  .flex-row {
+    display: flex;
+    gap: 38px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .panel {
+    flex: 1 1 320px;
+    background: var(--gray2);
+    border-radius: 10px;
+    padding: 20px 16px 16px 16px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    min-width: 300px;
+    margin-bottom: 22px;
+  }
+  .panel h3 {
+    margin: 0 0 12px 0;
+    color: var(--primary-dark);
+    font-size: 1.13rem;
+    font-weight: 700;
+  }
+  .event-list, .task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 230px;
+    overflow-y: auto;
+  }
+  .event-list li, .task-list li {
+    background: var(--white);
+    margin-bottom: 10px;
+    border-radius: 7px;
+    padding: 10px 14px;
+    box-shadow: 0 1px 4px rgba(59, 130, 246, 0.07);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 1rem;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+  .event-list li:last-child, .task-list li:last-child { margin-bottom: 0; }
+  .event-list .event-title { font-weight: 600; color: var(--primary-dark); }
+  .event-list .event-time { font-size: 0.97rem; color: var(--text-light); }
+  .event-list .event-desc { font-size: 0.95rem; color: var(--text-light); margin-top: 2px; }
+  
+  .delete-btn, .done-btn {
+    background: none;
+    border: none;
+    color: var(--error);
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-left: 12px;
+    transition: color 0.14s;
+  }
+  .delete-btn:hover { color: #b91c1c; }
+  .done-btn { color: var(--success); margin-left: 0; margin-right: 8px; }
+  .done-btn:hover { color: #15803d;}
+  .task-title.done { text-decoration: line-through; color: var(--text-light);}
+  
+  /* ---------- ADD EVENT/TASK FORMS ---------- */
+  .add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 8px;
+  }
+  .add-form input, .add-form textarea, .add-form select {
+    padding: 8px 10px;
+    border: 1px solid var(--gray);
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #f9fafb;
+    resize: none;
+  }
+  .add-form button {
+    align-self: flex-end;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    padding: 7px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 4px;
+  }
+  .add-form button:hover { background: var(--primary-dark);}
+  
+  /* ---------- TAREFAS FILTRO ---------- */
+  .tasks-filter {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .tasks-filter button {
+    border: none;
+    background: var(--gray2);
+    color: var(--text-light);
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.16s, color 0.16s;
+    font-size: 0.98rem;
+  }
+  .tasks-filter .active, .tasks-filter button:hover {
+    background: var(--primary);
+    color: var(--white);
+  }
+  
+  /* ---------- LOGIN, REGISTER, RESET ---------- */
+  .centered-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--background);
+  }
+  .auth-container {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    padding: 40px 32px 30px 32px;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: relative;
+    animation: fadeIn 1s;
+  }
+  .auth-title {
+    font-size: 1.23rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: -14px;
+  }
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+  }
+  .auth-form label {
+    font-size: 0.98rem;
+    color: var(--text-light);
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  .auth-form input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--gray);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f9fafb;
+    transition: border 0.2s;
+  }
+  .auth-form input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: #fff;
+  }
+  .auth-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.97rem;
+    margin-top: -12px;
+    margin-bottom: 4px;
+  }
+  .auth-links a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .auth-links a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+  }
+  .btn-auth {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 13px 0;
+    font-size: 1.07rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.10);
+    margin-top: 6px;
+  }
+  .btn-auth:hover { background: var(--primary-dark); }
+  .auth-bottom {
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 8px;
+  }
+  .auth-bottom a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 4px;
+    transition: color 0.2s;
+  }
+  .auth-bottom a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+  }
+  .msg {
+    text-align: center;
+    font-size: 0.98rem;
+    margin-bottom: 5px;
+    margin-top: -10px;
+    color: var(--error);
+    font-weight: 600;
+  }
+  .msg.success { color: var(--success); }
+  
+  /* ---------- CONFIGURAÇÕES ---------- */
+  .settings-container {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .settings-column {
+    flex: 1;
+    min-width: 300px;
+  }
+  .settings-column h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--text);
+  }
+  .settings-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .settings-list li {
+    margin-bottom: 16px;
+    background: var(--gray2);
+    padding: 13px 18px;
+    border-radius: 8px;
+    font-size: 1.06rem;
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .settings-list label {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .settings-list input[type="checkbox"] {
+    accent-color: var(--primary);
+    width: 18px;
+    height: 18px;
+  }
+  .settings-list .logout-btn {
+    background: var(--error);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 6px;
+    transition: background 0.16s;
+  }
+  .settings-list .logout-btn:hover { background: #b91c1c; }
+  
+  /* ---------- PÁGINA SOBRE ---------- */
+  .testimonials-container {
+    margin-top: 30px;
+    background: var(--gray2);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .testimonials-container h3 {
+    text-align: center;
+    color: var(--primary-dark);
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.3rem;
+  }
+  .testimonial-card {
+    background: var(--white);
+    border-left: 5px solid var(--primary);
+    padding: 18px 22px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: border-left-color 0.3s ease;
+  }
+  .testimonial-card blockquote {
+    margin: 0;
+    padding: 0;
+    font-style: italic;
+    color: var(--text);
+    font-size: 1.05rem;
+  }
+  .testimonial-card .author {
+    display: block;
+    text-align: right;
+    margin-top: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+  }
+  
+  /* ---------- PÁGINA ADMIN ---------- */
+  .admin-user-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .admin-user-details-header h3 { margin: 0; color: var(--primary-dark); }
+  .admin-user-details-header button {
+    background: var(--gray2);
+    border: 1px solid var(--gray);
+    color: var(--text);
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.16s, color 0.16s;
+  }
+  .admin-user-details-header button:hover { background: var(--gray); }
+  .view-details-btn {
+    background: var(--primary); 
+    color: var(--white); 
+    border-radius: 6px; 
+    padding: 6px 14px; 
+    font-size: 0.95rem; 
+    font-weight: 600; 
+    border: none;
+    cursor: pointer;
+    transition: background 0.16s;
+  }
+  .view-details-btn:hover { background: var(--primary-dark); }
+  /* MODIFICAÇÃO ADMIN: Estilos para o painel de info do usuário */
+  .admin-user-info {
+    background: var(--gray2);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .admin-user-info p {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+  }
+  .admin-user-info strong {
+    color: var(--text);
+    min-width: 150px;
+    display: inline-block;
+  }
+  
+  /* ---------- PREMIUM E PAGAMENTO ---------- */
+  .premium-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+  }
+  .premium-card {
+      background: var(--gray2);
+      border: 1px solid var(--gray);
+      border-radius: 12px;
+      padding: 25px;
+      width: 320px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .premium-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+  .premium-card.featured {
+      border: 2px solid var(--primary);
+      transform: scale(1.05);
+  }
+  .premium-card.featured:hover {
+      transform: scale(1.05) translateY(-5px);
+  }
+  .featured-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: var(--white);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+  }
+  .premium-card h3 { font-size: 1.5rem; color: var(--text); margin: 10px 0; }
+  .premium-card .price { font-size: 2.5rem; font-weight: 700; color: var(--primary-dark); margin: 10px 0 20px; }
+  .premium-card .price-period { font-size: 1rem; font-weight: 400; color: var(--text-light); }
+  .features-list { list-style: none; padding: 0; margin: 0 0 25px; text-align: left; flex-grow: 1; }
+  .features-list li { margin-bottom: 12px; color: var(--text); display: flex; align-items: center; gap: 10px; }
+  .features-list li.disabled { color: var(--text-light); text-decoration: line-through; }
+  .features-list .check-icon { color: var(--success); font-weight: 700; }
+  .btn-secondary { background: var(--gray); color: var(--text-light); border: none; border-radius: 8px; padding: 13px 0; font-size: 1.07rem; font-weight: 600; cursor: not-allowed; margin-top: auto; }
+  .plan-badge { font-weight: 700; padding: 4px 10px; border-radius: 20px; font-size: 0.9rem; }
+  .plan-badge.free { background: var(--gray); color: var(--text-light); }
+  .plan-badge.premium { background: var(--primary); color: var(--white); }
+
+  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 100; animation: fadeIn 0.3s; }
+  .payment-modal { background: var(--white); padding: 30px; border-radius: 16px; width: 90%; max-width: 450px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); text-align: center; }
+  .payment-modal h3 { margin-top: 0; font-size: 1.4rem; }
+  #paymentForm { margin-top: 20px; }
+  #paymentForm button { margin-top: 10px; width: 100%; }
+  #cancelPaymentBtn { background: var(--gray); color: var(--text-light); cursor: pointer; }
+  #cancelPaymentBtn:hover { background: #d1d5db; }
+  
+  .success-checkmark { width: 80px; height: 115px; margin: 0 auto; }
+  .success-checkmark .check-icon { width: 80px; height: 80px; position: relative; border-radius: 50%; box-sizing: content-box; border: 4px solid var(--success); transform: scale(0); animation: scaleIn 0.4s 0.2s forwards; }
+  .success-checkmark .check-icon .icon-line { height: 5px; background-color: var(--success); display: block; border-radius: 2px; position: absolute; z-index: 10; }
+  .success-checkmark .check-icon .line-tip { top: 38px; left: 14px; width: 0px; animation: anim-line-tip 0.75s 0.6s forwards; }
+  .success-checkmark .check-icon .line-long { top: 30px; right: 8px; width: 0px; transform: rotate(-45deg); animation: anim-line-long 0.75s 0.6s forwards; }
+  .success-checkmark .icon-circle { top: -4px; left: -4px; width: 80px; height: 80px; border-radius: 50%; position: absolute; box-sizing: content-box; border: 4px solid rgba(12, 186, 86, .5); transform: scale(0); animation: scaleInCircle 0.6s 0.3s forwards; }
+  @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+  @keyframes scaleInCircle { from { transform: scale(0); } to { transform: scale(1.2); opacity: 0; } }
+  @keyframes anim-line-tip { 0% { width: 0; } 100% { width: 25px; } }
+  @keyframes anim-line-long { 0% { width: 0; } 100% { width: 47px; } }
+  
+  #themesContainer, #supportContainer {
+    margin-top: 25px;
+    background: var(--gray2);
+    padding: 15px;
+    border-radius: 8px;
+  }
+  #themesContainer label, #supportContainer label {
+    font-weight: 600;
+    color: var(--text);
+    display: block;
+    margin-bottom: 12px;
+    font-size: 1.06rem;
+  }
+  .theme-selector {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  .theme-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid var(--gray);
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .theme-swatch.active {
+    border-color: var(--primary);
+    transform: scale(1.15);
+    box-shadow: 0 0 10px var(--primary);
+  }
+  .theme-swatch:hover {
+    transform: scale(1.1);
+  }
+  
+  /* ---------- FOOTER ---------- */
+  .footer {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 1rem;
+    margin-top: 32px;
+    margin-bottom: 10px;
+  }
+  
+  /* ---------- RESPONSIVO ---------- */
+  @media (max-width: 900px) {
+    .container { max-width: 99vw; padding: 20px 6vw;}
+    .flex-row { flex-direction: column; gap: 12px;}
+    .panel { margin-bottom: 14px;}
+  }
+  @media (max-width: 600px) {
+    .header { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px 10px;}
+    .container { padding: 13px 2vw; }
+  }
+  @media (max-width: 430px) {
+    .container, .auth-container { padding: 8px 1vw; }
+    .header { padding: 7px 2vw;}
+  }
+  
